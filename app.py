@@ -9,37 +9,30 @@ def index():
     if request.method == 'POST':
         html_content = request.form['html_content']
         soup = BeautifulSoup(html_content, 'html.parser')
+        
+        # Encuentra la imagen, el bold y el párrafo
+        image = soup.find('img')
+        bold_text = soup.find(['b', 'strong'])  # Busca tanto <b> como <strong>
+        paragraph = soup.find('p')
 
-        # Buscar la imagen, bold y párrafo
-        images = soup.find_all('img')
-        bolds = soup.find_all('b')  # También puedes usar 'strong' si es el caso
-        paragraphs = soup.find_all('p')
+        # Comprobar si se encontraron todos los elementos requeridos
+        if image and bold_text and paragraph:
+            # Construir el nuevo HTML
+            modified_html = f'''
+<div class="flex-content-blog">
+    <div class="image-container">
+        <img src="{image['src']}" alt="{image.get('alt', 'Descripción de la imagen')}">
+    </div>
+    <div class="text-container">
+        <h2>{bold_text.text}</h2>
+        <p>{paragraph.text}</p>
+    </div>
+</div>
+            '''
+        else:
+            modified_html = "<p>No se encontraron todos los elementos requeridos. Asegúrate de incluir una imagen, un texto en negrita y un párrafo.</p>"
 
-        if images and bolds and paragraphs:
-            # Crear el nuevo contenedor
-            flex_content_blog = soup.new_tag('div', **{'class': 'flex-content-blog'})
-            # Primer div para la imagen
-            image_div = soup.new_tag('div')
-            image_div.append(images[0])  # Solo toma la primera imagen
-            flex_content_blog.append(image_div)
-
-            # Segundo div para el bold convertido a h2 y el párrafo
-            text_div = soup.new_tag('div')
-            if bolds:
-                h2 = soup.new_tag('h2')
-                h2.string = bolds[0].string  # Convertir el primer bold a h2
-                text_div.append(h2)
-
-            if paragraphs:
-                text_div.append(paragraphs[0])  # Agregar el primer párrafo
-
-            flex_content_blog.append(text_div)
-
-            # Convertir a string
-            modified_html = str(flex_content_blog)
-    
     return render_template('index.html', modified_html=modified_html)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
+    app.run(host='0.0.0.0', port=5002, debug=True)

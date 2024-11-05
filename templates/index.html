@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Formatter</title>
+    <title>Reformador HTML</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>HTML Formatter</h1>
-    <form method="POST">
-        <label for="html_content">Pega tu HTML aquí:</label><br>
-        <textarea name="html_content" rows="10" cols="50"></textarea><br><br>
-        <button type="submit">Formatear HTML</button>
-    </form>
-    
-    {% if modified_html %}
-        <h2>HTML Formateado:</h2>
-        <pre>{{ modified_html|safe }}</pre>
-    {% endif %}
+    <div class="container">
+        <h1>Reformador HTML</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="html_content">Introduce tu HTML:</label>
+                <textarea class="form-control" id="html_content" name="html_content" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+        <h2>HTML Modificado:</h2>
+        <div>
+            <pre>
+            <p>{{ modified_html}}</p></pre>
+        </div>
+    </div>
 </body>
 </html>
