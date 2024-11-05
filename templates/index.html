@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Formatter</title>
+</head>
+<body>
+    <h1>HTML Formatter</h1>
+    <form method="POST">
+        <label for="html_content">Pega tu HTML aquí:</label><br>
+        <textarea name="html_content" rows="10" cols="50"></textarea><br><br>
+        <button type="submit">Formatear HTML</button>
+    </form>
+    
+    {% if modified_html %}
+        <h2>HTML Formateado:</h2>
+        <pre>{{ modified_html|safe }}</pre>
+    {% endif %}
+</body>
+</html>
